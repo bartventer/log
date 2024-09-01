@@ -1,0 +1,45 @@
+name: Test
+
+on:
+  workflow_dispatch: 
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+    test:
+        strategy:
+            fail-fast: false
+            matrix:
+                os: 
+                    - ubuntu-latest
+                    - windows-latest
+                    - macos-latest
+                include:
+                  - os: ubuntu-latest
+                    upload: true
+        runs-on: ${{ matrix.os }}
+        env:
+          COVERPROFILE: coverage.out
+    
+        steps:
+        - uses: actions/checkout@v4
+        - name: Set up Go
+          uses: actions/setup-go@v5
+          with:
+            go-version-file: ./go.mod
+        - name: Run tests
+          run: make test
+        - name: Run Codecov
+          if: matrix.upload
+          env:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          uses: codecov/codecov-action@v4
+          with:
+                file: ${{env.COVERPROFILE}}
+                flags: unittests
+                name: codecov-umbrella
+                fail_ci_if_error: true
