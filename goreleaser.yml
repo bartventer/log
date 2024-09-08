@@ -2,3 +2,47 @@ version: 2
 
 builds:
   - skip: true
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+  groups:
+    - title: Dependency updates
+      regexp: '^.*?(.+)\(deps\)!?:.+$'
+      order: 300
+    - title: "New Features"
+      regexp: '^.*?feat(\(.+\))??!?:.+$'
+      order: 100
+    - title: "Security updates"
+      regexp: '^.*?sec(\(.+\))??!?:.+$'
+      order: 150
+    - title: "Bug fixes"
+      regexp: '^.*?(fix|refactor)(\(.+\))??!?:.+$'
+      order: 200
+    - title: "Documentation updates"
+      regexp: ^.*?docs?(\(.+\))??!?:.+$
+      order: 400
+    - title: "Build process updates"
+      regexp: ^.*?(build|ci)(\(.+\))??!?:.+$
+      order: 400
+    - title: Other work
+      order: 9999
+    - title: "Breaking changes"
+      regexp: ^.*?BREAKING CHANGE(\(.+\))??!?:.+$
+      order: 0
+    - title: "Chores"
+      regexp: ^.*?chore(\(.+\))??!?:.+$
+      order: 400
+    - title: "Reverts"
+      regexp: ^.*?revert(\(.+\))??!?:.+$
+      order: 400
+    - title: "Performance updates"
+      regexp: ^.*?perf(\(.+\))??!?:.+$
+      order: 400
+    - title: "Style updates"
+      regexp: ^.*?style(\(.+\))??!?:.+$
+      order: 400
