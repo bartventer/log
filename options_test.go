@@ -29,19 +29,19 @@ func TestApplyOptions(t *testing.T) {
 	options := &Options{
 		LogOptions: &LogOptions{},
 	}
-	WithTimeFunction(timeFunc)(options)
-	WithTimeFormat(timeFormat)(options)
-	WithLevel(level)(options)
-	WithPrefix(prefix)(options)
-	WithReportTimestamp(reportTimestamp)(options)
-	WithReportCaller(reportCaller)(options)
-	WithCallerFormatter(callerFormatter)(options)
-	WithFields(fields)(options)
-	WithFormatter(formatter)(options)
-	WithCallerOffset(callerOffset)(options)
-	WithWriter(&buf)(options)
-	WithStyles(styles)(options)
-	WithDefault()(options)
+	UseTimeFunction(timeFunc)(options)
+	UseTimeFormat(timeFormat)(options)
+	UseLevel(level)(options)
+	UsePrefix(prefix)(options)
+	UseReportTimestamp(reportTimestamp)(options)
+	UseReportCaller(reportCaller)(options)
+	UseCallerFormatter(callerFormatter)(options)
+	UseFields(fields)(options)
+	UseFormatter(formatter)(options)
+	UseCallerOffset(callerOffset)(options)
+	UseOutput(&buf)(options)
+	UseStyles(styles)(options)
+	AsDefault()(options)
 
 	// Verify the options
 	assert.NotNil(t, options.TimeFunction)
