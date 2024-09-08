@@ -10,7 +10,7 @@ import (
 
 func TestStandardLog(t *testing.T) {
 	var buf bytes.Buffer
-	l := log.New(log.WithWriter(&buf))
+	l := log.New(log.UseOutput(&buf))
 	stdLogger := log.StandardLog(func(slo *log.StandardLogOptions) {
 		slo.ForceLevel = log.InfoLevel
 		slo.Logger = l
@@ -21,7 +21,7 @@ func TestStandardLog(t *testing.T) {
 
 	// Test with default logger
 	buf.Reset()
-	log.SetOutput(log.Default(), &buf)
+	log.SetOutput(&buf)
 	stdLogger = log.StandardLog()
 	stdLogger.Println("test message")
 	assert.Contains(t, buf.String(), "INFO")
