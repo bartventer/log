@@ -6,7 +6,7 @@
 
 `log` provides a structured logger with context support.
 
-![Made with VHS](https://vhs.charm.sh/vhs-1Bb0tQxFBTi6YSCGGo5SII.gif)
+![Made with VHS](https://vhs.charm.sh/vhs-omATZaviv1LkaPtgJ5UFL.gif)
 
 _Refer to [examples/app](examples/app/app.go) for the source code._
 
