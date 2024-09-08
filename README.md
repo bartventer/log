@@ -2,7 +2,6 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/bartventer/log.svg)](https://pkg.go.dev/github.com/bartventer/log)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bartventer/log)](https://goreportcard.com/report/github.com/bartventer/log)
 [![Test](https://github.com/bartventer/log/actions/workflows/default.yml/badge.svg)](https://github.com/bartventer/log/actions/workflows/default.yml)
-[![License](https://img.shields.io/github/license/bartventer/log)](LICENSE)
 [![codecov](https://codecov.io/gh/bartventer/log/graph/badge.svg?token=btaj9v5KWM)](https://codecov.io/gh/bartventer/log)
 
 `log` provides a structured logger with context support.
