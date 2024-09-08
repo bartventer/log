@@ -27,7 +27,7 @@ import (
 )
 
 func main() {
-    logger := log.New(log.WithLevel(log.DebugLevel))
+    logger := log.New(log.UseLevel(log.DebugLevel))
     
     logger.Debug("Oh, hi!")
 }

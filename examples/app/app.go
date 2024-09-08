@@ -10,10 +10,10 @@ import (
 
 func main() {
 	logger := log.New(
-		log.WithLevel(log.DebugLevel),
-		log.WithWriter(os.Stdout),
-		log.WithPrefix("DemoApp"),
-		log.WithReportTimestamp(true),
+		log.UseLevel(log.DebugLevel),
+		log.UseOutput(os.Stdout),
+		log.UsePrefix("DemoApp"),
+		log.UseReportTimestamp(true),
 	)
 
 	logger.Info("Starting the application...")
@@ -37,7 +37,6 @@ func main() {
 	logger.Info("Task 3 failed.")
 	time.Sleep(2 * time.Second)
 
-	// Log with context
 	ctx := context.Background()
 	logger.InfoContext(ctx, "Shutting down the application...")
 	time.Sleep(2 * time.Second)
