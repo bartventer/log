@@ -30,3 +30,4 @@ go.work.sum
 **/app/app
 
 examples/app/gif.log
+_*
