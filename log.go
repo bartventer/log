@@ -2,7 +2,6 @@
 package log
 
 import (
-	"context"
 	"log/slog"
 	"os"
 	"sync"
@@ -11,23 +10,8 @@ import (
 	"github.com/charmbracelet/log"
 )
 
-// Logger defines the [slog.Logger] interface.
-type Logger interface {
-	Debug(msg string, args ...any)
-	DebugContext(ctx context.Context, msg string, args ...any)
-	Enabled(ctx context.Context, level slog.Level) bool
-	Error(msg string, args ...any)
-	ErrorContext(ctx context.Context, msg string, args ...any)
-	Handler() slog.Handler
-	Info(msg string, args ...any)
-	InfoContext(ctx context.Context, msg string, args ...any)
-	Log(ctx context.Context, level slog.Level, msg string, args ...any)
-	LogAttrs(ctx context.Context, level slog.Level, msg string, attrs ...slog.Attr)
-	Warn(msg string, args ...any)
-	WarnContext(ctx context.Context, msg string, args ...any)
-	With(args ...any) *slog.Logger
-	WithGroup(name string) *slog.Logger
-}
+// Logger is an alias for [slog.Logger].
+type Logger = slog.Logger
 
 var (
 	defaultStylesOnce struct {
@@ -92,13 +76,15 @@ func loggerHandler(l *slog.Logger) *log.Logger {
 	return l.Handler().(*log.Logger)
 }
 
-// toInterface converts a slice of Attr to a slice of interface{}.
-func toInterface(args []slog.Attr) []interface{} {
-	iargs := make([]interface{}, len(args))
-	for i, a := range args {
-		iargs[i] = a
+// DefaultOptions returns the default options.
+func DefaultOptions() *Options {
+	return &Options{
+		LogOptions: &LogOptions{
+			Level: log.InfoLevel,
+		},
+		Writer: os.Stderr,
+		Styles: DefaultStyles(),
 	}
-	return iargs
 }
 
 //  +------------------------------------------------------------+
@@ -107,14 +93,8 @@ func toInterface(args []slog.Attr) []interface{} {
 
 // New creates a new logger with the given options.
 func New(opts ...Option) *slog.Logger {
-	o := &Options{
-		LogOptions: &LogOptions{
-			Level: log.InfoLevel,
-		},
-		Writer: os.Stderr,
-		Styles: DefaultStyles(),
-	}
-	o.apply(opts...)
+	o := DefaultOptions()
+	o.Apply(opts...)
 
 	handler := log.NewWithOptions(o.Writer, *o.LogOptions)
 
@@ -138,8 +118,8 @@ func New(opts ...Option) *slog.Logger {
 //  +------------------------------------------------------------+
 
 // Debug logs a message with level Debug.
-func Debug(msg string, args ...slog.Attr) {
-	handler().Debug(msg, toInterface(args)...)
+func Debug(msg string, args ...any) {
+	handler().Debug(msg, args...)
 }
 
 // Debugf logs a formatted message with level Debug.
@@ -148,8 +128,8 @@ func Debugf(format string, args ...any) {
 }
 
 // Info logs a message with level Info.
-func Info(msg string, args ...slog.Attr) {
-	handler().Info(msg, toInterface(args)...)
+func Info(msg string, args ...any) {
+	handler().Info(msg, args...)
 }
 
 // Infof logs a formatted message with level Info.
@@ -158,8 +138,8 @@ func Infof(format string, args ...any) {
 }
 
 // Warn logs a message with level Warn.
-func Warn(msg string, args ...slog.Attr) {
-	handler().Warn(msg, toInterface(args)...)
+func Warn(msg string, args ...any) {
+	handler().Warn(msg, args...)
 }
 
 // Warnf logs a formatted message with level Warn.
@@ -168,8 +148,8 @@ func Warnf(format string, args ...any) {
 }
 
 // Error logs a message with level Error.
-func Error(msg string, args ...slog.Attr) {
-	handler().Error(msg, toInterface(args)...)
+func Error(msg string, args ...any) {
+	handler().Error(msg, args...)
 }
 
 // Errorf logs a formatted message with level Error.
@@ -178,23 +158,23 @@ func Errorf(format string, args ...any) {
 }
 
 // Fatal logs a message with level Fatal and exits with status code 1.
-func Fatal(msg string, args ...slog.Attr) {
-	handler().Fatal(msg, toInterface(args)...)
+func Fatal(msg any, keyvals ...any) {
+	handler().Fatal(msg, keyvals...)
 }
 
 // Fatalf logs a formatted message with level Fatal and exits with status code 1.
 func Fatalf(format string, args ...any) {
-	handler().Log(log.FatalLevel, format, args...)
+	handler().Fatalf(format, args...)
 }
 
 // Print logs a message with no level.
-func Print(msg string, args ...slog.Attr) {
-	handler().Print(msg, toInterface(args)...)
+func Print(msg string, args ...any) {
+	handler().Print(msg, args...)
 }
 
 // Log logs a message with the given level.
-func Log(level Level, msg string, args ...slog.Attr) {
-	handler().Log(level, msg, toInterface(args)...)
+func Log(level Level, msg string, args ...any) {
+	handler().Log(level, msg, args...)
 }
 
 // Logf logs a formatted message with the given level.
