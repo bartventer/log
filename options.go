@@ -52,7 +52,7 @@ type Options struct {
 	Default bool        // Default is whether the logger is the default logger. Default is false.
 }
 
-func (o *Options) apply(opts ...Option) {
+func (o *Options) Apply(opts ...Option) {
 	for _, opt := range opts {
 		opt(o)
 	}
