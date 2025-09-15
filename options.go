@@ -119,6 +119,16 @@ func UseFields(fields map[string]slog.Value) Option {
 	}
 }
 
+// UseValuerFields sets the fields option using slog.LogValuer. Default is no fields.
+// This allows for lazy evaluation of field values.
+func UseValuerFields(fields map[string]slog.LogValuer) Option {
+	return func(o *Options) {
+		for k, v := range fields {
+			o.Fields = append(o.Fields, k, v)
+		}
+	}
+}
+
 // UseFormatter sets the formatter option. Default is [TextFormatter].
 func UseFormatter(f Formatter) Option {
 	return func(o *Options) {

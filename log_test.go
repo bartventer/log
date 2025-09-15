@@ -30,6 +30,9 @@ func TestNew(t *testing.T) {
 		log.UseReportCaller(true),
 		log.UseCallerFormatter(log.ShortCallerFormatter),
 		log.UseFields(map[string]slog.Value{"key": slog.StringValue("value")}),
+		log.UseValuerFields(map[string]slog.LogValuer{"key_valuer": log.ValueFunc(func() slog.Value {
+			return slog.StringValue("value_valuer")
+		})}),
 		log.UseFormatter(log.JSONFormatter),
 		log.UseCallerOffset(2),
 		log.UseStyles(log.DefaultStyles()),
@@ -41,6 +44,8 @@ func TestNew(t *testing.T) {
 	assert.Contains(t, buf.String(), "TEST")
 	assert.Contains(t, buf.String(), "key")
 	assert.Contains(t, buf.String(), "value")
+	assert.Contains(t, buf.String(), "key_valuer")
+	assert.Contains(t, buf.String(), "value_valuer")
 	assert.Contains(t, buf.String(), "test message")
 
 }

@@ -20,6 +20,11 @@ func TestApplyOptions(t *testing.T) {
 	fields := map[string]slog.Value{
 		"key": slog.StringValue("value"),
 	}
+	valueFields := map[string]slog.LogValuer{
+		"key_valuer": ValueFunc(func() slog.Value {
+			return slog.StringValue("value_valuer")
+		}),
+	}
 	formatter := JSONFormatter
 	callerOffset := 2
 	var buf bytes.Buffer
@@ -37,6 +42,7 @@ func TestApplyOptions(t *testing.T) {
 	UseReportCaller(reportCaller)(options)
 	UseCallerFormatter(callerFormatter)(options)
 	UseFields(fields)(options)
+	UseValuerFields(valueFields)(options)
 	UseFormatter(formatter)(options)
 	UseCallerOffset(callerOffset)(options)
 	UseOutput(&buf)(options)
@@ -52,6 +58,7 @@ func TestApplyOptions(t *testing.T) {
 	assert.True(t, options.ReportCaller)
 	assert.NotNil(t, options.CallerFormatter)
 	assert.Contains(t, options.Fields, "key")
+	assert.Contains(t, options.Fields, "key_valuer")
 	assert.Equal(t, formatter, options.Formatter)
 	assert.Equal(t, callerOffset, options.CallerOffset)
 	assert.Equal(t, &buf, options.Writer)
