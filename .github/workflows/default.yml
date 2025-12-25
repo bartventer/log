@@ -37,7 +37,7 @@ jobs:
           if: matrix.upload
           env:
             CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          uses: codecov/codecov-action@v4
+          uses: codecov/codecov-action@v5
           with:
                 file: ${{env.COVERPROFILE}}
                 flags: unittests
